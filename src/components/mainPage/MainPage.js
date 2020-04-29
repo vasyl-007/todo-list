@@ -17,7 +17,7 @@ class MainPage extends Component {
         allTasks: storageTasks,
       });
     }
-    if (this.props.location.state.updatedTask) this.editTask();
+    // if (this.props.location.state.updatedTask) this.editTask();
   }
 
   putToAllTasks = async (newTask) => {
@@ -42,23 +42,68 @@ class MainPage extends Component {
     }));
   };
 
-  componentDidUpdate(prevState) {
-    // console.log("update ---->");
-    // console.log("prevState", prevState);
-    // console.log("this.state", this.state);
+  componentDidUpdate(prevState, prevProps) {
+    const { allTasks } = this.state;
 
-    if (prevState.comments !== this.state.comments) {
-      localStorage.setItem("comments", JSON.stringify(this.state.comments));
+    if (this.prevState.location.state) {
+      const { id } = prevState.location.state.updatedTask;
+      const { title, text } = prevState.location.state.updatedTask.task;
+
+      const currentTask = allTasks.find((task) => task.id === id);
+      //   console.log("currentTask ----", currentTask);
+
+      if (currentTask.title !== title || currentTask.text !== text) {
+        this.setState({
+          allTasks: allTasks.map((task) =>
+            task.id === id ? { ...task, title, text } : { ...task }
+          ),
+        });
+      }
     }
   }
-  editTask = () => {
-    const { id, title, text, dated } = this.props.location.state.updatedTask;
-    this.setState((prev) => ({
-      allTasks: prev.allTasks.map((item) =>
-        item.id === id ? { ...item, title, text, dated } : { ...item }
-      ),
-    }));
-  };
+
+  // if (prevState.location.state.updatedTask.task.title !== this.state) {
+  //   const { allTasks } = this.state;
+  //   const { id } = this.props.location.state.updatedTask;
+  //   const currentTask = allTasks.find((task) => task.id === id);
+  //   this.setState({
+  //     allTasks: allTasks.map((t) =>
+  //       t.id === id ? { ...currentTask } : { ...t }
+  //     ),
+  //   });
+
+  // const { allTasks } = this.state;
+  // if (this.props.location.state) {
+  //   // const { id } = this.props.location.state.updatedTask;
+  //   const { id } = this.props.location.state.updatedTask;
+  //   const currentTask = allTasks.find((task) => task.id === id);
+  //   console.log("currentTask ----", currentTask);
+  // }
+  // console.log("prevState++++", prevState);
+  // console.log("this.state++++", this.state);
+  // console.log("prevProps++++", prevProps);
+
+  // if(prevState.location.state.updatedTask.id === id) {
+  //   allTasks.map((t) => {
+  //     t.id === id ? ({...t, title !== task.title}) : ({...t})
+  //         ? { ...t, title: this.props.location.state.updatedTask.task.title }
+  //         : { ...t },
+  //       t.text !== this.props.location.state.updatedTask.task.text
+  //         ? { ...t, text: this.props.location.state.updatedTask.task.text }}
+
+  // }
+  // editTask = () => {
+  //   const {
+  //     id,
+  //     task: { title, text },
+  //     dated,
+  //   } = this.props.location.state.updatedTask;
+  //   this.setState((prev) => ({
+  //     allTasks: prev.allTasks.map((item) =>
+  //       item.id === id ? { ...item, title, text, dated } : { ...item }
+  //     ),
+  //   }));
+  // };
 
   render() {
     // this.editTask();
@@ -71,11 +116,11 @@ class MainPage extends Component {
     // }
     // const { task } = this.props.location.state.task;
 
-    console.log("!!!!! updated task", this.props.location.state.updatedTask);
+    // console.log("!!!!! updated task", this.props.location.state.updatedTask);
 
     const { allTasks } = this.state;
     console.log("allTasks", allTasks);
-    // console.log("allTasks", allTasks);
+
     return (
       <section className={styles.container}>
         <h3 className={styles.header}>All tasks</h3>
