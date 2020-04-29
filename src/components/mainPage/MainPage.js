@@ -43,24 +43,61 @@ class MainPage extends Component {
   };
 
   componentDidUpdate(prevState, prevProps) {
-    const { allTasks } = this.state;
+    console.log("prevState++++", prevState);
+    console.log("this.state++++", this.state);
+    console.log("prevProps++++", prevProps);
+    console.log("this.Props++++", this.props);
 
-    if (this.prevState.location.state) {
-      const { id } = prevState.location.state.updatedTask;
-      const { title, text } = prevState.location.state.updatedTask.task;
+    // if (prevState.allTasks !== this.state.allTasks) {
+    if (prevState.location.state.updatedTask && this.state) {
+      const { allTasks } = this.state;
 
-      const currentTask = allTasks.find((task) => task.id === id);
-      //   console.log("currentTask ----", currentTask);
+      if (prevState.allTasks !== this.state.allTasks) {
+        console.log("re-render *****************");
+        const { id } = this.props.location.state.updatedTask;
+        const { title, text } = this.props.location.state.updatedTask.task;
 
-      if (currentTask.title !== title || currentTask.text !== text) {
-        this.setState({
-          allTasks: allTasks.map((task) =>
-            task.id === id ? { ...task, title, text } : { ...task }
-          ),
-        });
+        const currentTask = allTasks.find((task) => task.id === id);
+        console.log("currentTask ----", currentTask);
+
+        if (currentTask.title !== title || currentTask.text !== text) {
+          this.setState({
+            allTasks: allTasks.map((task) =>
+              task.id === id
+                ? {
+                    ...task,
+                    task: {
+                      title: title,
+                      text: text,
+                    },
+                  }
+                : { ...task }
+            ),
+          });
+        } else return;
       }
     }
   }
+
+  // componentDidUpdate(prevState, prevProps) {
+  //   const { allTasks } = this.state;
+
+  //   if (this.prevState.location.state) {
+  //     const { id } = prevState.location.state.updatedTask;
+  //     const { title, text } = prevState.location.state.updatedTask.task;
+
+  //     const currentTask = allTasks.find((task) => task.id === id);
+  //     //   console.log("currentTask ----", currentTask);
+
+  //     if (currentTask.title !== title || currentTask.text !== text) {
+  //       this.setState({
+  //         allTasks: allTasks.map((task) =>
+  //           task.id === id ? { ...task, title, text } : { ...task }
+  //         ),
+  //       });
+  //     }
+  //   }
+  // }
 
   // if (prevState.location.state.updatedTask.task.title !== this.state) {
   //   const { allTasks } = this.state;
