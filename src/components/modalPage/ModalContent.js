@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 import Modal from "./Modal";
 // import { TodoList } from "../mainPage/TodoList";
 
@@ -95,14 +96,15 @@ export default class ModalContent extends Component {
   };
 
   render() {
-    // const { title, text } = this.props.location.state.task.task;
+    const { id, dated, title, text } = this.props.location.state.task;
+    const { task } = this.props.location.state.task;
     const {
       modalTitle,
       modalText,
       isEditableTitle,
       isEditableText,
     } = this.state;
-    // console.log("this.props", this.props);
+    console.log("this.props", this.props);
     // console.log("this.state.isModalOpen", this.state.isModalOpen);
 
     return (
@@ -131,7 +133,25 @@ export default class ModalContent extends Component {
 
             <p onDoubleClick={this.changeEditMode}>{modalText}</p> */}
             <button onClick={this.changeEditMode}>Edit</button>
-            <button onClick={this.closeModal}>Save changes</button>
+            <button onClick={this.changeEditMode}>Cancel</button>
+
+            <NavLink
+              to={{
+                pathname: "/main",
+                state: {
+                  updatedTask: {
+                    id,
+                    task: {
+                      title: modalTitle,
+                      text: modalText,
+                    },
+                    dated,
+                  },
+                },
+              }}
+            >
+              <button onClick={this.closeModal}>Save changes</button>
+            </NavLink>
           </Modal>
         )}
       </div>

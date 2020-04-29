@@ -17,6 +17,7 @@ class MainPage extends Component {
         allTasks: storageTasks,
       });
     }
+    if (this.props.location.state.updatedTask) this.editTask();
   }
 
   putToAllTasks = async (newTask) => {
@@ -41,17 +42,37 @@ class MainPage extends Component {
     }));
   };
 
-  // editTask = (id, newTitle, newText) => {
-  //   this.setState((prev) => ({
-  //     allTasks: prev.allTasks.map((item) =>
-  //       item.id === id
-  //         ? { ...item, title: newTitle, text: newText }
-  //         : { ...item }
-  //     ),
-  //   }));
-  // };
+  componentDidUpdate(prevState) {
+    // console.log("update ---->");
+    // console.log("prevState", prevState);
+    // console.log("this.state", this.state);
+
+    if (prevState.comments !== this.state.comments) {
+      localStorage.setItem("comments", JSON.stringify(this.state.comments));
+    }
+  }
+  editTask = () => {
+    const { id, title, text, dated } = this.props.location.state.updatedTask;
+    this.setState((prev) => ({
+      allTasks: prev.allTasks.map((item) =>
+        item.id === id ? { ...item, title, text, dated } : { ...item }
+      ),
+    }));
+  };
 
   render() {
+    // this.editTask();
+    // {
+    //   this.props.location.state.updatedTask
+    //     ? () => {
+    //         this.editTask();
+    //       }
+    //     : null;
+    // }
+    // const { task } = this.props.location.state.task;
+
+    console.log("!!!!! updated task", this.props.location.state.updatedTask);
+
     const { allTasks } = this.state;
     console.log("allTasks", allTasks);
     // console.log("allTasks", allTasks);
