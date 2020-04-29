@@ -1,0 +1,31 @@
+.container {
+  width: 650px;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+}
+.sidebar {
+  background-color: #0069ff;
+  color: #fff;
+  text-align: center;
+  padding: 1.7rem;
+}
+.title {
+  font-size: 1.5rem;
+}
+.description {
+  font-size: small;
+}
+.button {
+  border: none;
+  margin-top: 1.5rem;
+  border-top-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 0.4rem;
+}
+
+.button:hover {
+  background-color: #0f498f;
+  color: #fff;
+  cursor: pointer;
+}

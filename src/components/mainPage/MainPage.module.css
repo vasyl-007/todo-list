@@ -1,0 +1,15 @@
+.container {
+  width: 68vw;
+  height: auto;
+  background: linear-gradient(120deg, #0355c9b0, #ffffff);
+  padding-bottom: 0.1rem;
+}
+.header {
+  text-align: center;
+  padding-top: 1rem;
+  color: #fff;
+}
+.input {
+  border: 1px solid rgb(213, 213, 230);
+  border-radius: 3px;
+}

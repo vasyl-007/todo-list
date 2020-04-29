@@ -1,0 +1,36 @@
+/* .container {
+  padding-right: 1rem;
+} */
+.task {
+  border: 2px solid #7298cc;
+  border-radius: 14px;
+  background-color: #ffffff;
+  font-size: 0.8rem;
+  padding-left: 36px;
+  padding-right: 36px;
+  margin-bottom: 0.4rem;
+  list-style: none;
+}
+.task:hover {
+  box-shadow: 4px 6px 4px rgba(0, 0, 0, 0.12), 4px 6px 8px rgba(0, 0, 0, 0.18);
+}
+.title {
+  text-transform: uppercase;
+}
+.date {
+  font-size: 0.6rem;
+  font-style: italic;
+}
+.button {
+  border: 1px solid #d6caca;
+  margin: 0 1rem;
+  width: 5rem;
+  border-radius: 0.3rem;
+  padding: 0.16rem 0.4rem;
+  margin-bottom: 0.6rem;
+}
+.button:hover {
+  cursor: pointer;
+  background-color: #a7a1a1;
+  color: #fff;
+}
