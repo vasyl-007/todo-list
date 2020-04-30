@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import shortId from "shortid";
 import styles from "./MainPage.module.css";
 import { TodoList } from "./TodoList";
 import Form from "./Form";
@@ -17,7 +16,6 @@ class MainPage extends Component {
         allTasks: storageTasks,
       });
     }
-    // if (this.props.location.state.updatedTask) this.editTask();
   }
 
   putToAllTasks = async (newTask) => {
@@ -28,7 +26,6 @@ class MainPage extends Component {
   };
 
   deleteTask = (id) => {
-    // console.log("id--------->", id);
     this.setState((prev) => ({
       allTasks: prev.allTasks.filter((item) => item.id !== id),
     }));
@@ -42,42 +39,84 @@ class MainPage extends Component {
     }));
   };
 
-  componentDidUpdate(prevState, prevProps) {
-    console.log("prevState++++", prevState);
-    console.log("this.state++++", this.state);
-    console.log("prevProps++++", prevProps);
-    console.log("this.Props++++", this.props);
+  updateTaskAfterCorrection = () => {
+    const { id, task: {title, text} } = this.props.location.state.updatedTask;
+    const { allTasks } = this.state;
+    this.setState({
+      allTasks: allTasks.map((task) =>
+        task.id === id
+          ? {
+              ...task,
+              task: {
+                title: title,
+                text: text,
+              },
+            }
+          : { ...task }
+      ),
+    });
+  };
 
-    // if (prevState.allTasks !== this.state.allTasks) {
-    if (prevState.location.state.updatedTask && this.state) {
-      const { allTasks } = this.state;
+  // componentDidUpdate(prevState, prevProps) {
+  //   console.log("prevState++++", prevState);
+  //   console.log("this.state++++", this.state);
+  //   console.log("prevProps++++", prevProps);
+  //   console.log("this.Props++++", this.props);
 
-      if (prevState.allTasks !== this.state.allTasks) {
-        console.log("re-render *****************");
-        const { id } = this.props.location.state.updatedTask;
-        const { title, text } = this.props.location.state.updatedTask.task;
+  // if (prevState.location.state !== null) {
+  //   const { title, text } = prevState.location.state.updatedTask.task;
+  //   const { id } = prevState.location.state.updatedTask;
+  //   const { allTasks } = this.state;
+  //   const taskToUpdate = allTasks.find((taskItem) => taskItem.id === id);
 
-        const currentTask = allTasks.find((task) => task.id === id);
-        console.log("currentTask ----", currentTask);
+  //   if (title === taskToUpdate.title && text === taskToUpdate.text) {
+  //     return;
+  //   } else this.updateTaskAfterCorrection();
+  // this.setState({
+  //   allTasks: allTasks.map((task) =>
+  //     task.id === id
+  //       ? {
+  //           ...task,
+  //           task: {
+  //             title: title,
+  //             text: text,
+  //           },
+  //         }
+  //       : { ...task }
+  //   ),
+  // });
+  // }
+  // if (prevState.allTasks !== this.state.allTasks) {
+  //   if (prevState.location.state && this.state) {
+  //     const { allTasks } = this.state;
 
-        if (currentTask.title !== title || currentTask.text !== text) {
-          this.setState({
-            allTasks: allTasks.map((task) =>
-              task.id === id
-                ? {
-                    ...task,
-                    task: {
-                      title: title,
-                      text: text,
-                    },
-                  }
-                : { ...task }
-            ),
-          });
-        } else return;
-      }
-    }
-  }
+  //     if (prevState.allTasks !== this.state.allTasks) {
+  //       console.log("re-render *****************");
+  //       const { id } = this.props.location.state.updatedTask;
+  //       const { title, text } = this.props.location.state.updatedTask.task;
+
+  //       const currentTask = allTasks.find((task) => task.id === id);
+  //       console.log("currentTask ----", currentTask);
+
+  //       if (currentTask.title !== title || currentTask.text !== text) {
+  //         this.setState({
+  //           allTasks: allTasks.map((task) =>
+  //             task.id === id
+  //               ? {
+  //                   ...task,
+  //                   task: {
+  //                     title: title,
+  //                     text: text,
+  //                   },
+  //                 }
+  //               : { ...task }
+  //           ),
+  //         });
+  //       } else return;
+  //     }
+  //   }
+  // }
+  // }
 
   // componentDidUpdate(prevState, prevProps) {
   //   const { allTasks } = this.state;
@@ -143,18 +182,6 @@ class MainPage extends Component {
   // };
 
   render() {
-    // this.editTask();
-    // {
-    //   this.props.location.state.updatedTask
-    //     ? () => {
-    //         this.editTask();
-    //       }
-    //     : null;
-    // }
-    // const { task } = this.props.location.state.task;
-
-    // console.log("!!!!! updated task", this.props.location.state.updatedTask);
-
     const { allTasks } = this.state;
     console.log("allTasks", allTasks);
 
@@ -163,12 +190,15 @@ class MainPage extends Component {
         <h3 className={styles.header}>All tasks</h3>
         <Form addTask={this.putToAllTasks} />
 
+        <button onClick={this.updateTaskAfterCorrection}>
+          Show updated tasks
+        </button>
+
         {allTasks.length > 0 && (
           <TodoList
             tasks={allTasks}
             deleteTask={this.deleteTask}
             checkChange={this.checkChange}
-            // editTask={this.editTask}
           />
         )}
       </section>
