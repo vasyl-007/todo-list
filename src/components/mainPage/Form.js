@@ -62,7 +62,7 @@ class Form extends Component {
           className={styles.input}
           placeholder="Enter description..."
         />
-        <button>Add task</button>
+        <button className={styles.button}>Add task</button>
       </form>
     );
   }

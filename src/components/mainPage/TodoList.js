@@ -1,13 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./TodoList.module.css";
-import ModalContent from "../modalPage/ModalContent";
 
 export const TodoList = ({ tasks, deleteTask, checkChange }) => {
-  // console.log("tasks --->", tasks);
-  // console.log("editTask --->", editTask);
   return (
-    <ul>
+    <ul className={styles.container}>
       {tasks.map((taskItem) => (
         <li key={taskItem.id} className={styles.task}>
           <h3 className={styles.title}>{taskItem.task.title}</h3>
@@ -27,7 +24,6 @@ export const TodoList = ({ tasks, deleteTask, checkChange }) => {
             }}
           >
             <button className={styles.button}>Edit</button>
-            {/* <ModalContent taskItem={taskItem} /> */}
           </NavLink>
           <button
             className={styles.button}

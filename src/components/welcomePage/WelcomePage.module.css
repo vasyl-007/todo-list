@@ -3,6 +3,7 @@
   height: auto;
   display: flex;
   justify-content: space-between;
+  padding-top: 4rem;
 }
 .sidebar {
   background-color: #0069ff;

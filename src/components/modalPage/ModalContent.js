@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import Modal from "./Modal";
-// import { TodoList } from "../mainPage/TodoList";
+import styles from "./ModalContent.module.css";
 
 export default class ModalContent extends Component {
   state = {
@@ -22,7 +22,6 @@ export default class ModalContent extends Component {
 
   openModal = () => this.setState({ isModalOpen: true });
   closeModal = () => this.props.history.push("/main");
-  // closeModal = () => this.setState({ isModalOpen: false });
 
   changeEditMode = () => {
     this.setState({
@@ -57,55 +56,80 @@ export default class ModalContent extends Component {
 
   renderEditViewTitle = () => {
     return (
-      <div>
+      <div className={styles.titleContainer}>
         <input
           type="text"
           defaultValue={this.state.modalTitle}
           ref="theTextInputTitle"
         />
-        <button onClick={this.changeEditModeTitle}>Cancel</button>
-        <button onClick={this.updateComponentValueTitle}>Save</button>
+        <button
+          onClick={this.changeEditModeTitle}
+          className={styles.innerButton}
+        >
+          Cancel
+        </button>
+        <button
+          onClick={this.updateComponentValueTitle}
+          className={styles.innerButton}
+        >
+          Save
+        </button>
       </div>
     );
   };
   renderEditViewText = () => {
     return (
-      <div>
+      <div className={styles.textContainer}>
         <input
           type="text"
           defaultValue={this.state.modalText}
           ref="theTextInputText"
         />
-        <button onClick={this.changeEditModeText}>Cancel</button>
-        <button onClick={this.updateComponentValueText}>Save</button>
+        <button
+          onClick={this.changeEditModeText}
+          className={styles.innerButton}
+        >
+          Cancel
+        </button>
+        <button
+          onClick={this.updateComponentValueText}
+          className={styles.innerButton}
+        >
+          Save
+        </button>
       </div>
     );
   };
 
   renderDefaultViewTitle = () => {
     return (
-      <div onDoubleClick={this.changeEditModeTitle}>
+      <div
+        onDoubleClick={this.changeEditModeTitle}
+        className={styles.titleContainer}
+      >
         {this.state.modalTitle}
       </div>
     );
   };
   renderDefaultViewText = () => {
     return (
-      <div onDoubleClick={this.changeEditModeText}>{this.state.modalText}</div>
+      <div
+        onDoubleClick={this.changeEditModeText}
+        className={styles.textContainer}
+      >
+        {this.state.modalText}
+      </div>
     );
   };
 
   render() {
-    const { id, dated, title, text } = this.props.location.state.task;
-    const { task } = this.props.location.state.task;
+    const { id, dated } = this.props.location.state.task;
     const {
       modalTitle,
       modalText,
       isEditableTitle,
       isEditableText,
     } = this.state;
-    console.log("this.props", this.props);
-    // console.log("this.state.isModalOpen", this.state.isModalOpen);
 
     return (
       <div>
@@ -117,41 +141,34 @@ export default class ModalContent extends Component {
             {isEditableText
               ? this.renderEditViewText()
               : this.renderDefaultViewText()}
+            <div className={styles.buttonsContainer}>
+              <button onClick={this.changeEditMode} className={styles.button}>
+                Edit
+              </button>
+              <button onClick={this.closeModal} className={styles.button}>
+                Cancel
+              </button>
 
-            {/* <div>
-              <input
-              type="text"
-               defaultValue={this.state.modalTitle}
-              // ref={this.}
-                onDoubleClick={this.changeEditMode}
-              
-                {modalTitle}
-              />
-              <button onClick={this.changeEditMode}>Cancel</button>
-              <button onClick={this.updateComponentValueTitle}>Save</button>
-            </div>
-
-            <p onDoubleClick={this.changeEditMode}>{modalText}</p> */}
-            <button onClick={this.changeEditMode}>Edit</button>
-            <button onClick={this.changeEditMode}>Cancel</button>
-
-            <NavLink
-              to={{
-                pathname: "/main",
-                state: {
-                  updatedTask: {
-                    id,
-                    task: {
-                      title: modalTitle,
-                      text: modalText,
+              <NavLink
+                to={{
+                  pathname: "/main",
+                  state: {
+                    updatedTask: {
+                      id: id,
+                      task: {
+                        title: modalTitle,
+                        text: modalText,
+                      },
+                      dated: dated,
                     },
-                    dated,
                   },
-                },
-              }}
-            >
-              <button onClick={this.closeModal}>Save changes</button>
-            </NavLink>
+                }}
+              >
+                <button onClick={this.closeModal} className={styles.button}>
+                  Save changes
+                </button>
+              </NavLink>
+            </div>
           </Modal>
         )}
       </div>
